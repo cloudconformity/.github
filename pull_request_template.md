@@ -8,6 +8,7 @@
 
 #### Checklist (if applicable)
 
+- [ ] PR title contains correct Jira issue key
 - [ ] README update
 
 ---
