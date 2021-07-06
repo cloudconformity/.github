@@ -6,8 +6,10 @@
 
 (eg. Introduces prettier so that we stop debating semantics :D)
 
-#### Checklist (if applicable)
+#### Checklist
 
+- [ ] I will squash: PR title conforms to standard commit message format (`feat: XX-1234 ...`)
+- [ ] I will merge without squashing: All commits conforms to standard commit message format (`feat: XX-1234 ...`)
 - [ ] README update
 
 ---
