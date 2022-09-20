@@ -1,0 +1,26 @@
+name: Version and tag
+
+on:
+  workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@722adc63f1aa60a57ec37892e133b1d319cae598 # v2 commit hash, refers to actions/checkout@v2
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # v2 commit hash, refers to actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: npm i npm@8 -g
+      - name: Version and tag
+        id: version
+        uses: cloudconformity/npm-version-action@v0.3.0 # no need to change this, as we trust internal repos.
+        env:
+          DEBUG: "true"
+      - name: Get the output version
+        run: echo "The version was ${{ steps.version.outputs.version }}"

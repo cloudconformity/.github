@@ -1,0 +1,27 @@
+name: Validate Commit Messages
+
+on:
+  workflow_call:
+    secrets:
+      WORKFLOW_TOKEN:
+        required: true
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@722adc63f1aa60a57ec37892e133b1d319cae598 # v2 commit hash, refers to actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # v2 commit hash, refers to actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: npm i npm@8 -g
+      - run: npm config set @cloudconformity:registry https://npm.pkg.github.com/
+      - run: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.WORKFLOW_TOKEN }}
+      - run: git config --global url."https://${{ secrets.WORKFLOW_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
+      - run: npm install
+      - uses: wagoid/commitlint-github-action@baffd3c16c570c0a26bf89be729b81bb796e9bd5 # v3.1.4 commit hash, refers to wagoid/commitlint-github-action@3.1.4
+        with:
+          configFile: .commitlintrc.js
